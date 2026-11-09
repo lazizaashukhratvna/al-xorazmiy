@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viruslar haqida biologik test</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .quiz-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            max-width: 650px;
+            width: 100%;
+            padding: 30px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+        .options {
+            list-style: none;
+        }
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover:not([disabled]) {
+            background-color: #e2e6ea;
+            border-color: #dae0e5;
+        }
+        .option-btn.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            font-weight: bold;
+        }
+        .option-btn.wrong {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .next-btn, .restart-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .next-btn:hover, .restart-btn:hover {
+            background-color: #0056b3;
+        }
+        .result-box {
+            text-align: center;
+        }
+        .result-box h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .result-box p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container" id="quiz">
+    <div id="quiz-body">
+        <div class="question" id="question">Savol yuklanmoqda...</div>
+        <ul class="options" id="options"></ul>
+        <div class="footer">
+            <span id="progress">1 / 10</span>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()" style="display: none;">Keyingisi</button>
+        </div>
+    </div>
+    
+    <div id="result-body" class="result-box" style="display: none;">
+        <h2>Test Yakunlandi!</h2>
+        <p id="score-text"></p>
+        <button class="restart-btn" onclick="restartQuiz()">Qayta urinish</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            question: "1. Viruslarning boshqa tirik organizmlardan asosiy farqi nimada?",
+            options: [
+                "Hujayra tuzilishiga ega emasligi",
+                "Oqsillarga ega emasligi",
+                "Nuklein kislotalari yo'qligi",
+                "Hujayra devorining juda qalinligi"
+            ],
+            answer: 0
+        },
+        {
+            question: "2. Bakteriofaglar nima?",
+            options: [
+                "O'simlik viruslari",
+                "Bakteriyalarni parazit qiluvchi viruslar",
+                "Faqat hayvonlarda uchraydigan bakteriyalar",
+                "Zamburug'li infeksiyalar"
+            ],
+            answer: 1
+        },
+        {
+            question: "3. Viruslarning genetik materiali nimadan iborat bo'lishi mumkin?",
+            options: [
+                "Faqat DNK va lipidlar",
+                "Bir vaqtning o'zida ham DNK, ham RNK",
+                "Faqat DNK yoki faqat RNK",
+                "Faqat aminokislotalar"
+            ],
+            answer: 2
+        },
+        {
+            question: "4. Dmitriy Ivanovskiy tamaki mozaykasi kasalligini o'rganishda qanday kashfiyot qildi?",
+            options: [
+                "Bakterial filtrlardan o'tuvchi infeksion agent borligini aniqladi",
+                "Mikroskopda virus oqsillarini ko'rib chiqdi",
+                "Birinchi virusli vaksinani yaratdi",
+                "Viruslarning DNK tarkibini ajratdi"
+            ],
+            answer: 0
+        },
+        {
+            question: "5. Viruslarning tashqi oqsil qobig'i qanday nomlanadi?",
+            options: [
+                "Kapsid",
+                "Membrana",
+                "Matritsa",
+                "Sitoplazma"
+            ],
+            answer: 0
+        },
+        {
+            question: "6. Virion so'zining ma'nosi nima?",
+            options: [
+                "Nofaol bakteriya",
+                "Tashqi muhitdagi to'liq shakllangan virus zarrachasi",
+                "Faqat RNKdan iborat molekula",
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viruslar haqida biologik test</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .quiz-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            max-width: 650px;
+            width: 100%;
+            padding: 30px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+        .options {
+            list-style: none;
+        }
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+        }
+        .option-btn:hover:not([disabled]) {
+            background-color: #e2e6ea;
+            border-color: #dae0e5;
+
+        }
+        .option-btn.correct {
+            background-color: #d4edda;
+
+            border-color: #c3e6cb;
+            color: #155724;
+            font-weight: bold;
+
+        }
+        .option-btn.wrong {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+
+        }
+        .footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+
+            align-items: center;
+        }
+        .next-btn, .restart-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .next-btn:hover, .restart-btn:hover {
+            background-color: #0056b3;
+        }
+        .result-box {
+            text-align: center;
+        }
+        .result-box h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .result-box p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container" id="quiz">
+    <div id="quiz-body">
+        <div class="question" id="question">Savol yuklanmoqda...</div>
+        <ul class="options" id="options"></ul>
+        <div class="footer">
+            <span id="progress">1 / 10</span>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()" style="display: none;">Keyingisi</button>
+        </div>
+    </div>
+    
+    <div id="result-body" class="result-box" style="display: none;">
+        <h2>Test Yakunlandi!</h2>
+        <p id="score-text"></p>
+        <button class="restart-btn" onclick="restartQuiz()">Qayta urinish</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            question: "1. Viruslarning boshqa tirik organizmlardan asosiy farqi nimada?",
+            options: [
+                "Hujayra tuzilishiga ega emasligi",
+                "Oqsillarga ega emasligi",
+                "Nuklein kislotalari yo'qligi",
+                "Hujayra devorining juda qalinligi"
+            ],
+            answer: 0
+        },
+        {
+            question: "2. Bakteriofaglar nima?",
+            options: [
+                "O'simlik viruslari",
+                "Bakteriyalarni parazit qiluvchi viruslar",
+                "Faqat hayvonlarda uchraydigan bakteriyalar",
+                "Zamburug'li infeksiyalar"
+            ],
+            answer: 1
+        },
+        {
+            question: "3. Viruslarning genetik materiali nimadan iborat bo'lishi mumkin?",
+            options: [
+                "Faqat DNK va lipidlar",
+                "Bir vaqtning o'zida ham DNK, ham RNK",
+                "Faqat DNK yoki faqat RNK",
+                "Faqat aminokislotalar"
+            ],
+            answer: 2
+        },
+        {
+            question: "4. Dmitriy Ivanovskiy tamaki mozaykasi kasalligini o'rganishda qanday kashfiyot qildi?",
+            options: [
+                "Bakterial filtrlardan o'tuvchi infeksion agent borligini aniqladi",
+                "Mikroskopda virus oqsillarini ko'rib chiqdi",
+                "Birinchi virusli vaksinani yaratdi",
+                "Viruslarning DNK tarkibini ajratdi"
+            ],
+            answer: 0
+        },
+        {
+            question: "5. Viruslarning tashqi oqsil qobig'i qanday nomlanadi?",
+            options: [
+                "Kapsid",
+                "Membrana",
+                "Matritsa",
+                "Sitoplazma"
+            ],
+            answer: 0
+        },
+        {
+            question: "6. Virion so'zining ma'nosi nima?",
+            options: [
+                "Nofaol bakteriya",
+                "Tashqi muhitdagi to'liq shakllangan virus zarrachasi",
+                "Faqat RNKdan iborat molekula",
+                "Hujayra ichidagi bo'lingan virus"
+            ],
+            answer: 1
+        },
+        {
+            question: "7. Retroviruslarning (masalan, OIV) boshqa viruslardan asosiy farqi nimada?",
+            options: [
+                "Teskari transkripsiya orqali RNKdan DNK sintez qilishi",
+                "Hujayradan tashqarida ko'payishi",
+                "Hujayra devoriga ega bo'lishi",
+                "Oqsil qobig'i bo'lmasligi"
+            ],
+            answer: 0
+        },
+        {
+            question: "8. Viruslar organizmga kirgandan so'ng qanday ko'payadi?",
+            options: [
+                "Mustaqil ravishda teng ikkiga bo'linib",
+                "Xo'jayin hujayra metabolizmidan foydalanib",
+                "Sporalar hosil qilish orqali",
+                "Jinsiy ko'payish yo'li bilan"
+            ],
+            answer: 1
+        },
+        {
+            question: "9. Quyidagi kasalliklardan qaysi biri virus keltirib chiqaradigan kasallikka misol bo'ladi?",
+            options: [
+                "Vabo (Xolera)",
+                "Sil (Tuberkulyoz)",
+                "Gripp",
+                "Moxov"
+            ],
+            answer: 2
+        },
+        {
+            question: "10. Vaksinatsiyaning virusli kasalliklarga qarshi kurashdagi asosiy prinsipi nima?",
+            options: [
+                "Organizmda immunitet va xotira hujayralarini shakllantirish",
+                "Mavjud viruslarni kimyoviy yo'l bilan darhol o'ldirish",
+                "Virusning RNK zanjirini o'zgartirish",
+                "Hujayralarni virus kirishidan batamom yopish"
+            ],
+            answer: 0
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const progressEl = document.getElementById("progress");
+    const quizBody = document.getElementById("quiz-body");
+    const resultBody = document.getElementById("result-body");
+    const scoreText = document.getElementById("score-text");
+
+    function loadQuestion() {
+        const q = questions[currentQuestionIndex];
+        questionEl.innerText = q.question;
+        optionsEl.innerHTML = "";
+        nextBtn.style.display = "none";
+        progressEl.innerText = `${currentQuestionIndex + 1} / ${questions.length}`;
+
+        q.options.forEach((opt, index) => {
+            const btn = document.createElement("button");
+            btn.classList.add("option-btn");
+            btn.innerText = opt;
+            btn.onclick = () => selectAnswer(index, q.answer, btn);
+            const li = document.createElement("li");
+            li.appendChild(btn);
+            optionsEl.appendChild(li);
+        });
+    }
+
+    function selectAnswer(selectedIndex, correctIndex, selectedBtn) {
+        const allButtons = optionsEl.querySelectorAll(".option-btn");
+        allButtons.forEach(btn => btn.disabled = true);
+
+        if (selectedIndex === correctIndex) {
+            selectedBtn.classList.add("correct");
+            score++;
+        } else {
+            selectedBtn.classList.add("wrong");
+            allButtons[correctIndex].classList.add("correct");
+        }
+
+        nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        quizBody.style.display = "none";
+        resultBody.style.display = "block";
+        scoreText.innerText = `Siz ${questions.length} ta savoldan ${score} tasiga to'g'ri javob berdingiz.`;
+    }
+
+    function restartQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        resultBody.style.display = "none";
+        quizBody.style.display = "block";
+        loadQuestion();
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>

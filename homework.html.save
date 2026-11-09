@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarmoq va Xotira Texnologiyalari Testi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans">
+
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 shadow-md py-4 px-6">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wide text-cyan-400">DNS, HTTP, HTTPS, CD, SSD, HDD Testi</h1>
+            <div id="timer" class="bg-slate-700 text-cyan-300 font-mono px-3 py-1 rounded-full text-sm">Vaqt: 00:00</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl w-full mx-auto p-6 my-auto">
+        
+        <!-- Start Screen -->
+        <div id="start-screen" class="bg-slate-800 p-8 rounded-xl shadow-xl text-center border border-slate-700">
+            <h2 class="text-2xl font-bold mb-4 text-white">Tarmoq protokollari va xotira qurilmalari bilimlaringizni sinang</h2>
+            <p class="text-slate-300 mb-6 leading-relaxed">
+                Ushbu test DNS, HTTP, HTTPS, CD (Optical Disc), SSD va HDD mavzulari bo'yicha jami 10 ta savoldan iborat. Har bir savol uchun to'g'ri javobni tanlang.
+            </p>
+            <button onclick="startQuiz()" class="bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-semibold px-8 py-3 rounded-lg shadow-lg transition duration-200">
+                Testni Boshlash
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden bg-slate-800 p-8 rounded-xl shadow-xl border border-slate-700">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                <span id="question-counter" class="text-sm font-semibold text-cyan-400 uppercase tracking-wider">Savol 1 / 10</span>
+                <span id="score-indicator" class="text-sm text-slate-400">Ball: 0</span>
+            </div>
+
+            <h3 id="question-text" class="text-lg font-medium text-white mb-6"></h3>
+
+            <div id="options-container" class="space-y-3 mb-6">
+                <!-- Options injected via JavaScript -->
+            </div>
+
+            <div id="explanation-container" class="hidden mb-6 p-4 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-300">
+                <p id="explanation-text"></p>
+            </div>
+
+            <div class="flex justify-end">
+                <button id="next-btn" onclick="nextQuestion()" class="hidden bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-semibold px-6 py-2.5 rounded-lg transition duration-200">
+                    Keyingi savol
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden bg-slate-800 p-8 rounded-xl shadow-xl text-center border border-slate-700">
+            <h2 class="text-2xl font-bold mb-2 text-white">Test Yakunlandi!</h2>
+            <p id="final-score-text" class="text-xl text-cyan-400 font-semibold mb-4"></p>
+            <p id="feedback-text" class="text-slate-300 mb-6"></p>
+            <button onclick="restartQuiz()" class="bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-semibold px-8 py-3 rounded-lg transition duration-200">
+                Qaytadan Boshlash
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700 py-3 text-center text-xs text-slate-500">
+        Interaktiv Ta'lim Platformasi &copy; 2026
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const questions = [
+            {
+                question: "DNS xizmatining asosiy vazifasi nima?",
+                options: [
+                    "Domen nomlarini IP-manzillarga tarjima qilish",
+                    "Veb sahifalarni shifrlangan holda uzatish",
+                    "Ma'lumotlarni qattiq diskda saqlash",
+                    "Tarmoqdagi qurilmalarga dinamik IP berish"
+                ],
+                correct: 0,
+                explanation: "DNS (Domain Name System) domen nomlarini (masalan, google.com) kompyuterlar tushunadigan raqamli IP-manzillarga aylantirib beradi."
+            },
+            {
+                question: "HTTP protokoli qanday kamchilikka ega va nima uchun HTTPS afzal ko'riladi?",
+                options: [
+                    "HTTP ma'lumotlarni ochiq matn ko'rinishida uzatadi, HTTPS esa shifrlaydi",
+                    "HTTP faqat CD disklar bilan ishlaydi",
+                    "HTTP sekin ishlaydi va SSD tezligini pasaytiradi",
+                    "HTTP domen nomlarini qo'llab-quvvatlamaydi"
+                ],
+                correct: 0,
+                explanation: "HTTP trafigi shifrlanmagan bo'ladi, bu esa ma'lumotlarni tutib qolish xavfini tug'diradi. HTTPS esa SSL/TLS yordamida xavfsiz va shifrlangan ulanishni ta'minlaydi."
+            },
+            {
+                question: "CD (Kompakt disk) qaysi turdagi saqlash vositasiga kiradi?",
+                options: [
+                    "Optik saqlash vositasi",
+                    "Magnitli saqlash vositasi",
+                    "Yarimo'tkazgichli xotira",
+                    "Bulutli xotira"
+                ],
+                correct: 0,
+                explanation: "CD optik disk bo'lib, ma'lumotlarni yozish va o'qish uchun lazer nurlaridan foydalanadi."
+            },
+            {
+                question: "HDD va SSD o'rtasidagi asosiy tuzilmaviy farq nimada?",
+                options: [
+                    "HDD mexanik harakatlanuvchi qismlarga ega, SSD esa flesh-xotiraga asoslangan",
+                    "SSD faqat tashqi qurilma sifatida ishlatiladi",
+                    "HDD ma'lumotlarni faqat lazer yordamida o'qiydi",
+                    "Ularning ikkalasi ham mexanik disklar bilan ishlaydi"
+                ],
+                correct: 0,
+                explanation: "HDD (Hard Disk Drive) aylanuvchi magnit disklar va boshchalardan iborat mexanik qurilma, SSD esa harakatlanuvchi qismlari yo'q mantiqiy elektron flesh-xotiradir."
+            },
+            {
+                question: "HTTPS protokoli standart holatda qaysi port orqali ishlaydi?",
+                options: [
+                    "443-port",
+                    "80-port",
+                    "21-port",
+                    "8080-port"
+                ],
+                correct: 0,
+                explanation: "HTTPS odatda 443-portdan foydalanadi, oddiy HTTP esa 80-portda ishlaydi."
+            },
+            {
+                question: "Quyidagilardan qaysi biri SSD afzalliklaridan biri hisoblanadi?",
+                options: [
+                    "Yuqori tezlik va mexanik shikastlanishga chidamlilik",
+                    "Narxining HDD ga nisbatan juda arzonligi",
+                    "Cheksiz yozish sikllariga ega ekanligi",
+                    "Ma'lumotlarni saqlash uchun doimiy magnit maydon talab qilishi"
+                ],
+                correct: 0,
+                explanation: "SSD ning harakatlanuvchi qismlari yo'qligi sababli u zarbalarga chidamli va ma'lumotlarni o'qish/yozish tezligi HDD dan sezilarli darajada yuqori."
+            },
+            {
+                question: "DNS so'rovlari qaysi transport qatlami protokolidan ko'proq foydalanadi?",
+                options: [
+                    "UDP (asosiy port 53)",
+                    "TCP (asosiy port 80)",
+                    "FTP (asosiy port 21)",
+                    "SSH (asosiy port 22)"
+                ],
+                correct: 0,
+                explanation: "DNS so'rovlari va javoblari odatda tezlik muhim bo'lgani uchun 53-portdagi UDP protokolidan foydalanadi."
+            },
+            {
+                question: "HTTP xabarlarida mijozning serverga ma'lumot yuborish yoki resurs so'rash uchun ishlatiladigan asosiy usullari (methods) qaysilar?",
+                options: [
+                    "GET va POST",
+                    "SEND va RECEIVE",
+                    "OPEN va CLOSE",
+                    "READ va WRITE"
+                ],
+                correct: 0,
+                explanation: "GET ma'lumot olish uchun, POST esa serverga yangi ma'lumot yuborish uchun ishlatiladigan asosiy HTTP metodlaridir."
+            },
+            {
+                question: "Odatda bir qatlamli standart CD-ROM disklarining sig'imi qancha bo'ladi?",
+                options: [
+                    "700 MB atrofida",
+                    "4.7 GB",
+                    "25 GB",
+                    "1.44 MB"
+                ],
+                correct: 0,
+                explanation: "An'anaviy CD disklari odatda 700 MB gacha (yoki 80 daqiqagacha audio) ma'lumot saqlashi mumkin. 4.7 GB esa odatiy DVD sig'imidir."
+            },
+            {
+                question: "HDD dagi ma'lumotlar qanday tarzda yoziladi va o'qiladi?",
+                options: [
+                    "Aylanuvchi magnit disklarga magnit boshchasi yordamida",
+                    "Faqat lazer nurlarini qaytarish orqali",
+                    "Yarimo'tkazgichli tranzistorlar yordamida elektron ravishda",
+                    "Optik yo'lakchalar bo'ylab suyuqlik oqimi orqali"
+                ],
+                correct: 0,
+                explanation: "HDD disklari magnitlangan qoplamaga ega bo'lib, o'qish/yozish kallaklari magnit maydonni o'zgartirish orqali ma'lumot yozadi va o'qiydi."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timerInterval;
+        let secondsElapsed = 0;
+        let answered = false;
+
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const questionCounter = document.getElementById('question-counter');
+        const scoreIndicator = document.getElementById('score-indicator');
+        const nextBtn = document.getElementById('next-btn');
+        const explanationContainer = document.getElementById('explanation-container');
+        const explanationText = document.getElementById('explanation-text');
+        const finalScoreText = document.getElementById('final-score-text');
+        const feedbackText = document.getElementById('feedback-text');
+        const timerDisplay = document.getElementById('timer');
+
+        function startQuiz() {
+            startScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            startTimer();
+            loadQuestion();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                let mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+                let secs = (secondsElapsed % 60).toString().padStart(2, '0');
+                timerDisplay.textContent = `Vaqt: ${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            answered = false;
+            nextBtn.classList.add('hidden');
+            explanationContainer.classList.add('hidden');
+
+            const currentQ = questions[currentQuestionIndex];
+            questionCounter.textContent = `Savol ${currentQuestionIndex + 1} / ${questions.length}`;
+            scoreIndicator.textContent = `Ball: ${score}`;
+            questionText.textContent = currentQ.question;
+
+            optionsContainer.innerHTML = '';
+            currentQ.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = "w-full text-left p-3.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 border border-slate-600 transition duration-150 text-sm";
+                button.onclick = () => selectOption(index, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectOption(selectedIndex, selectedButton) {
+            if (answered) return;
+            answered = true;
+
+            const currentQ = questions[currentQuestionIndex];
+            const buttons = optionsContainer.children;
+
