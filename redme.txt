@@ -1,1 +1,7 @@
-buyruqlar yozildi
+cd [papka nomi]->bu biror papkaga kirish buyrug'i
+cd..->biror papkadan chiqish
+nano[filename.filetype]->fayl yaratish yoki ko'rish
+git clone[project_url]->loyhani klon qilish
+git add .->GITga yangi o'zgarishni qo'shish
+git commit -m"[bajarilgan ishga qisqa tavsif]" ->GITga qo'shilganlarga COMMIT berish 
+git push origin main ->Barcha COMMITlarni (barcha bajarilgan ishlarni) git(github,gitlab)ga saqlash.
